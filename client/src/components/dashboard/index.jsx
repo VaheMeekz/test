@@ -20,8 +20,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const DashboardMain = ({data,page,setPage,pages}) => {
     const dispatch = useDispatch()
-    //pagination
-
     //modals states
     const [open, setOpen] = useState(false);
     const [openDel, setOpenDel] = useState(false);
@@ -42,7 +40,6 @@ const DashboardMain = ({data,page,setPage,pages}) => {
         dispatch(getSingleWorkspaceAC(id));
         openEditModal();
     }
-
     return (
         <Box m={3} className="workspaceBox">
             <h2 mt={3} mb={3}>
@@ -87,8 +84,9 @@ const DashboardMain = ({data,page,setPage,pages}) => {
                     </Table>
                 </TableContainer>
             </Box>
+            {
+              pages.length > 0  ? (
             <Box>
-
                     <div className="pagBox">
                         <div className="arrowBack">
                             {pages.length - 1 == page ? (<ArrowBackIosIcon
@@ -120,6 +118,7 @@ const DashboardMain = ({data,page,setPage,pages}) => {
                         </div>
                     </div>
             </Box>
+                ) : null}
             {
                 open && <AddModal open={open} close={handleClose}/>
             }

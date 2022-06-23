@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_WORKSPACE,
+    ADD_NEW_WORKSPACE, CLOSE_MODAL,
     DELETE_WORKSPACE,
     EDIT_WORKSPACE, GET_CLEAR_WORKSPACE,
     GET_SINGLE_WORKSPACE,
@@ -13,7 +13,8 @@ const initialState = {
     loading: false,
     single: null,
     singleLoading: true,
-    variants: null
+    variants: null,
+    close:false
 }
 
 
@@ -64,6 +65,11 @@ export const workspaceReducer = (state = initialState, action) => {
                 ...state,
                 single: action.payload,
                 singleLoading: true
+            }
+        case CLOSE_MODAL:
+            return {
+                ...state,
+                close: action.payload
             }
         default:
             return state

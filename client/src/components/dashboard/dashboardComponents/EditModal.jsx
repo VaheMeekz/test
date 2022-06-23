@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {style} from "../../helpers/modal/style";
 import {Formik} from "formik";
 import {workspaceValidateSchema} from "../../helpers/schemas/validate";
-import { editWorkspace} from "../../../store/actions/workspaceAction";
+import { closeModalAC, editWorkspace} from "../../../store/actions/workspaceAction";
 import Grid from "@mui/material/Grid";
 import Input from "../../helpers/input/Input";
 
@@ -18,16 +18,18 @@ const EditModal = ({open, close}) => {
     const data = useSelector(state => state.workspace.single);
     const loading = useSelector(state => state.workspace.singleLoading);
     const variants = useSelector(state => state.workspace.variants)
+    const closeModal = useSelector(state => state.workspace.close)
     const [loadingVariants, setLoadingVariants] = useState(false)
     useEffect(() => {
         if (variants !== null || variants !== false) {
             setLoadingVariants(false)
-        }else if(variants == false){
+        }
+        if(closeModal){
             close()
+            dispatch(closeModalAC(false))
         }
     }, [variants])
 
-    console.log(variants,"++++++++++")
 
     return (
         <div>
@@ -66,9 +68,8 @@ const EditModal = ({open, close}) => {
                                                 <Input name={"subDomain"} type={"text"} fullWidth={true}
                                                        label={"Subdomain"}/>
                                                 {
-                                                    variants != null || variants !== false ? (
+                                                    variants && variants != null || variants !== false ? (
                                                         <div>
-                                                            <h3>Subdomain Already Exist</h3>
                                                             {variants?.map((variant, index) => {
                                                                 return (
                                                                     <p key={index}>{index+1}. Variant: {variant}</p>

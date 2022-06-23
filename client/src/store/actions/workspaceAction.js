@@ -5,7 +5,7 @@ import {
     GET_WORKSPACES,
     GET_SINGLE_WORKSPACE,
     EDIT_WORKSPACE,
-    GET_VARIANTS, GET_CLEAR_WORKSPACE
+    GET_VARIANTS, GET_CLEAR_WORKSPACE, CLOSE_MODAL
 } from "../types";
 import {apiUrl, token} from "../../config/keys";
 import Swal from "sweetalert2";
@@ -16,7 +16,7 @@ export const getWorkspacesAC = (offset, limit) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-            params:{
+            params: {
                 offset, limit
             }
         })
@@ -48,9 +48,10 @@ export const createWorkspaceAC = (name, domain, subDomain) => {
                         payload: response.data.newWorkspace,
                     });
                     dispatch({
-                        type:GET_VARIANTS,
-                        payload:false
+                        type: GET_VARIANTS,
+                        payload: false
                     })
+                    dispatch(closeModalAC(true))
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -58,10 +59,10 @@ export const createWorkspaceAC = (name, domain, subDomain) => {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                }else if(response.data.variant){
+                } else if (response.data.variant) {
                     dispatch({
-                        type:GET_VARIANTS,
-                        payload:response.data.variants
+                        type: GET_VARIANTS,
+                        payload: response.data.variants
                     })
                 }
             })
@@ -142,21 +143,21 @@ export const editWorkspace = (id, name, domain, subDomain) => {
             }
         })
             .then(function (response) {
-                console.log(response.data,"pppppppppppppppppppp")
-                if(response.data.variant){
+                if (response.data.variant) {
                     dispatch({
-                        type:GET_VARIANTS,
-                        payload:response.data.variants
+                        type: GET_VARIANTS,
+                        payload: response.data.variants
                     })
-                }else {
+                } else {
                     dispatch({
                         type: EDIT_WORKSPACE,
                         payload: response.data,
                     });
                     dispatch({
-                        type:GET_VARIANTS,
-                        payload:false
+                        type: GET_VARIANTS,
+                        payload: false
                     })
+                    dispatch(closeModalAC(true))
                 }
             })
             .catch(function (error) {
@@ -170,7 +171,14 @@ export const editWorkspace = (id, name, domain, subDomain) => {
 
 export const clearWorkspace = () => {
     return ({
-        type:GET_CLEAR_WORKSPACE,
-        payload:null
+        type: GET_CLEAR_WORKSPACE,
+        payload: null
+    })
+}
+
+export const closeModalAC = (data) => {
+    return ({
+        type: CLOSE_MODAL,
+        payload: data
     })
 }
