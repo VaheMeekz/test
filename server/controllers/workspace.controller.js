@@ -1,10 +1,20 @@
+const {validationResult} = require('express-validator');
 const workspaceService = require('../services/workspace.service')
 
 const create = async (req, res) => {
     try {
         const {name, domain, subDomain} = req.body
         const userId = req.user.user_id
-        workspaceService.create(res, userId, name, domain, subDomain)
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.json({
+                success: false,
+                errors: errors.array()
+            });
+        }else {
+            workspaceService.create(res, userId, name, domain, subDomain)
+
+        }
     } catch (e) {
         console.log("Something went wrong", e)
     }
@@ -24,7 +34,15 @@ const editWorkspace = async (req, res) => {
     try {
         const {id, name, domain, subDomain} = req.body
         const userId = req.user.user_id
-        workspaceService.editWorkspace(res, userId, id, name, domain, subDomain)
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.json({
+                success: false,
+                errors: errors.array()
+            });
+        }else {
+            workspaceService.editWorkspace(res, userId, id, name, domain, subDomain)
+        }
     } catch (e) {
         console.log("Something went wrong", e)
     }
