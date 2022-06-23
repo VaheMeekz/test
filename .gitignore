@@ -1,0 +1,5 @@
+/.idea
+/server/node_module
+/server/.idea
+/client/node_module
+/client/.idea
