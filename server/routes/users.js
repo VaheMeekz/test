@@ -6,5 +6,6 @@ const userValidationSchemas = require("../validation/userRouterValidation")
 
 router.post('/register',userValidationSchemas.registerValidation,userController.register)
 router.post('/login',userValidationSchemas.loginValidation,userController.login)
+//
 router.post('/logout',authMiddleware,userController.logout)
 module.exports = router;

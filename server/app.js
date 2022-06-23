@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
-const expressValidator = require('express-validator')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const workspaceRouter = require('./routes/workspace')
@@ -13,7 +12,6 @@ require('dotenv').config()
 require('dotenv').config()
 const app = express();
 app.use(cors())
-// app.use(expressValidator())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
